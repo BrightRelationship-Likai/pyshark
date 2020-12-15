@@ -33,18 +33,18 @@ def print_callback(pkt):
         # 使用cursor()方法获取操作游标
         cursor = db.cursor()
         #pdb.set_trace()
-        print (pkt.radius)
+        #print (pkt.radius)
         dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "' AND filter_id='" + dict_user_group[pkt.radius.user_name] + "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + "')"
         print (dupsql)
         cursor.execute(dupsql)
         if cursor.fetchall() == ():
             getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + dict_user_group[pkt.radius.user_name] + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
-            pdb.set_trace()		
+            #pdb.set_trace()		
             cursor.execute(getconfigsql)
             configdatas = cursor.fetchall()
             for index,configdata in enumerate(configdatas):
                 flowiden = pkt.radius.user_name + pkt.radius.framed_ip_address + str(index)
-                url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147058199337/flow-node-inventory:table/0/flow/" + flowiden
+                url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
                 if configdata[1] == "0":
                     dst_ip_address = configdata[2] + "/32"
                 elif configdata[1] == "1":
@@ -92,7 +92,8 @@ def print_callback(pkt):
                     }"
 
                     response = requests.request("PUT", url, headers=headers, data = payload)
-                    print("add flow sended to controller")
+                    print("payload=%s",payload)
+                    print("url=%s",url)
                     print(response.text.encode('utf8'))
                 elif pkt.radius.acct_status_type == "2":
                     payload = {}
