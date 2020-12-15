@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python3.8
 # -*- coding: UTF-8 -*-
 
 import MySQLdb
@@ -9,10 +9,11 @@ import datetime
 import pdb
 
 ipPort = "10.0.48.33:8181"
-capture = pyshark.LiveCapture(interface='dclient',bpf_filter='udp port 37008')
+capture = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1813')
 # capture.sniff(timeout=5)
 # capture
 def print_callback(pkt):
+    print (pkt.radius)
     if pkt is None or pkt.radius.user_name is None or pkt.radius.framed_ip_address is None or pkt.radius.acct_status_type is None:
         print ("some thingi pkt user_name or ip_address or status_type None")
     else:
