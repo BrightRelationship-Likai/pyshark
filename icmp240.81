@@ -1,0 +1,76 @@
+curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/icmp240.81' \
+--header 'Authorization: Basic YWRtaW46YWRtaW4=' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "flow-node-inventory:flow": [
+        {
+            "id": "icmp240.81",
+            "priority": 9000,
+            "cookie": 10,
+            "table_id": 0,
+            "hard-timeout": 0,
+            "match": {
+                 "icmpv4-match": {
+                     "icmpv4-type": 8
+                 },
+                "in-port": "47"
+                // "vlan-match": {
+                //     "vlan-id": {
+                //         "vlan-id": 34,
+                //         "vlan-id-present": true
+                //     }
+                // }
+            },
+            "instructions": {
+                "instruction": [
+                    {
+                        "order": 20,
+                        "apply-actions": {
+                            "action": [
+                                {
+                                    "order": "1",
+                                    "set-dl-dst-action": {
+                                        "address": "20:0b:c7:8f:21:8d"
+                                    }
+                                },
+                                 {
+                                    "set-dl-src-action": {
+                                        "address": "de:ad:be:ef:00:01"
+                                    },
+                                    "order": "2"
+                                },
+                                 {
+                                    "set-nw-src-action": {
+                                        "ipv4-address": "172.20.240.81/32"
+                                    },
+                                    "order": "3"
+                                },
+                                {
+                                    "set-nw-dst-action": {
+                                        "ipv4-address": "172.20.240.1/32"
+                                    },
+                                    "order": "4"
+                                },
+                                {
+                                    "order": 5,
+                                    "set-field": {
+                                        "icmpv4-match": {
+                                            "icmpv4-type": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "order": 6,
+                                    "output-action": {
+                                        "output-node-connector": "4294967288"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "idle-timeout": 0
+        }
+    ]
+}'

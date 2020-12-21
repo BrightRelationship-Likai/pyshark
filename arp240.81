@@ -1,0 +1,86 @@
+curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/arp240.81' \
+--header 'Authorization: Basic YWRtaW46YWRtaW4=' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "flow-node-inventory:flow": [
+        {
+            "id": "arp240.81",
+            "priority": 9000,
+            "cookie": 10,
+            "table_id": 0,
+            "hard-timeout": 0,
+            "match": {
+                "ethernet-match": {
+                    "ethernet-type": {
+                        "type": 2054
+                    }
+                },
+                
+                 "arp-source-transport-address": "172.20.240.0/20",
+                //  "arp-target-hardware-address": {
+                //      "address": "FE:DC:BA:98:76:54"
+                //  },
+                 "arp-op": 1,
+                //  "arp-source-hardware-address": {
+                //      "address": "12:34:56:78:98:AB"
+                //  },
+                 "arp-target-transport-address": "172.16.240.81/32",
+                "in-port": "47"
+                // "vlan-match": {
+                //     "vlan-id": {
+                //         "vlan-id": 34,
+                //         "vlan-id-present": true
+                //     }
+                // }
+            },
+            "instructions": {
+                "instruction": [
+                    {
+                        "order": 20,
+                        "apply-actions": {
+                            "action": [
+                                // {
+                                //     "order": 1,
+                                //     "set-field": {
+                                //         "arp_spa": ""
+                                //     }
+                                // },
+                                {
+                                    "set-dl-dst-action": {
+                                        "address": "ff:ff:ff:ff:ff:ff"
+                                    },
+                                    "order": "1"
+                                },
+                                {
+                                    "set-dl-src-action": {
+                                        "address": "de:ad:be:ef:00:01"
+                                    },
+                                    "order": "2"
+                                },
+                                {
+                                            "order": 3,
+                                            "set-field": {
+                                                "arp-source-transport-address": "172.16.240.81/32"
+                                            }
+                                        },
+                                 {
+                                            "order": 4,
+                                            "set-field": {
+                                                "arp-target-transport-address": "172.20.240.1/32"
+                                            }
+                                        },
+                                {
+                                    "order": 5,
+                                    "output-action": {
+                                        "output-node-connector": "4294967288"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "idle-timeout": 0
+        }
+    ]
+}'
