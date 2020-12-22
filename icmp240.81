@@ -1,4 +1,7 @@
-{
+curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/icmp240.81' \
+--header 'Authorization: Basic YWRtaW46YWRtaW4=' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "flow-node-inventory:flow": [
         {
             "id": "icmp240.81",
@@ -32,7 +35,7 @@
                                 },
                                 {
                                     "set-nw-src-action": {
-                                        "ipv4-address": "172.20.240.81/32"
+                                        "ipv4-address": "172.20.240.5/32"
                                     },
                                     "order": "3"
                                 },
@@ -64,4 +67,4 @@
             "idle-timeout": 0
         }
     ]
-}
+}'

@@ -17,7 +17,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                 },
                 "arp-source-transport-address": "172.20.240.1/32",
                 "arp-op": 1,
-                "arp-target-transport-address": "172.20.240.81/32",
+                "arp-target-transport-address": "172.20.240.5/32",
                 "in-port": "46"
             },
             "instructions": {
@@ -41,7 +41,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": 3,
                                     "set-field": {
-                                        "arp-source-transport-address": "172.20.240.81/32"
+                                        "arp-source-transport-address": "172.20.240.5/32"
                                     }
                                 },
                                 {
