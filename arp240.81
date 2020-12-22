@@ -16,13 +16,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                     }
                 },
                 "arp-source-transport-address": "172.20.240.1/32",
-                //  "arp-target-hardware-address": {
-                //      "address": "FE:DC:BA:98:76:54"
-                //  },
                 "arp-op": 1,
-                //  "arp-source-hardware-address": {
-                //      "address": "12:34:56:78:98:AB"
-                //  },
                 "arp-target-transport-address": "172.20.240.81/32",
                 "in-port": "46"
             },
@@ -50,11 +44,12 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                         "arp-source-transport-address": "172.20.240.81/32"
                                     }
                                 },
-                                
                                 {
                                     "order": 4,
                                     "set-field": {
-                                        "arp-source-hardware-address": "de:ad:be:ef:00:01"
+                                        "arp-source-hardware-address": {
+                                            "address": "de:ad:be:ef:00:01"
+                                        }
                                     }
                                 },
                                 {
@@ -66,7 +61,9 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": 6,
                                     "set-field": {
-                                        "arp-target-hardware-address": "20:0b:c7:8f:21:8d"
+                                        "arp-target-hardware-address": {
+                                            "address": "20:0b:c7:8f:21:8d"
+                                        }
                                     }
                                 },
                                 {
