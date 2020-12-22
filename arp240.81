@@ -15,23 +15,16 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                         "type": 2054
                     }
                 },
-                
-                 "arp-source-transport-address": "172.20.240.0/20",
+                "arp-source-transport-address": "172.20.240.1/32",
                 //  "arp-target-hardware-address": {
                 //      "address": "FE:DC:BA:98:76:54"
                 //  },
-                 "arp-op": 1,
+                "arp-op": 1,
                 //  "arp-source-hardware-address": {
                 //      "address": "12:34:56:78:98:AB"
                 //  },
-                 "arp-target-transport-address": "172.16.240.81/32",
-                "in-port": "47"
-                // "vlan-match": {
-                //     "vlan-id": {
-                //         "vlan-id": 34,
-                //         "vlan-id-present": true
-                //     }
-                // }
+                "arp-target-transport-address": "172.20.240.81/32",
+                "in-port": "46"
             },
             "instructions": {
                 "instruction": [
@@ -39,12 +32,6 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                         "order": 20,
                         "apply-actions": {
                             "action": [
-                                // {
-                                //     "order": 1,
-                                //     "set-field": {
-                                //         "arp_spa": ""
-                                //     }
-                                // },
                                 {
                                     "set-dl-dst-action": {
                                         "address": "ff:ff:ff:ff:ff:ff"
@@ -52,25 +39,38 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                     "order": "1"
                                 },
                                 {
+                                    "order": 2,
                                     "set-dl-src-action": {
                                         "address": "de:ad:be:ef:00:01"
-                                    },
-                                    "order": "2"
+                                    }
                                 },
                                 {
-                                            "order": 3,
-                                            "set-field": {
-                                                "arp-source-transport-address": "172.16.240.81/32"
-                                            }
-                                        },
-                                 {
-                                            "order": 4,
-                                            "set-field": {
-                                                "arp-target-transport-address": "172.20.240.1/32"
-                                            }
-                                        },
+                                    "order": 3,
+                                    "set-field": {
+                                        "arp-source-transport-address": "172.20.240.81/32"
+                                    }
+                                },
+                                
+                                {
+                                    "order": 4,
+                                    "set-field": {
+                                        "arp-source-hardware-address": "de:ad:be:ef:00:01"
+                                    }
+                                },
                                 {
                                     "order": 5,
+                                    "set-field": {
+                                        "arp-target-transport-address": "172.20.240.1/32"
+                                    }
+                                },
+                                {
+                                    "order": 6,
+                                    "set-field": {
+                                        "arp-target-hardware-address": "20:0b:c7:8f:21:8d"
+                                    }
+                                },
+                                {
+                                    "order": 7,
                                     "output-action": {
                                         "output-node-connector": "4294967288"
                                     }
