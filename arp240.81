@@ -15,10 +15,10 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                         "type": 2054
                     }
                 },
-                "arp-source-transport-address": "172.20.240.1/32",
+                "arp-source-transport-address": "172.20.240.11/32",
                 "arp-op": 1,
-                "arp-target-transport-address": "172.20.240.5/32",
-                "in-port": "46"
+                "arp-target-transport-address": "172.20.240.10/32",
+                "in-port": "44"
             },
             "instructions": {
                 "instruction": [
@@ -41,7 +41,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": 3,
                                     "set-field": {
-                                        "arp-source-transport-address": "172.20.240.5/32"
+                                        "arp-source-transport-address": "172.20.240.10/32"
                                     }
                                 },
                                 {
@@ -55,20 +55,15 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": 5,
                                     "set-field": {
-                                        "arp-target-transport-address": "172.20.240.1/32"
-                                    }
-                                },
-                                {
-                                    "order": 6,
-                                    "set-field": {
-                                        "arp-target-hardware-address": {
-                                            "address": "20:0b:c7:8f:21:8d"
-                                        }
+                                        "arp-target-transport-address": "172.20.240.11/32"
                                     }
                                 },
                                 {
                                     "order": 7,
                                     "output-action": {
+                                        //"output-node-connector": "CONTROLLER",
+                                        //"max-length": 9000
+                                        //"output-node-connector": "44"
                                         "output-node-connector": "4294967288"
                                     }
                                 }

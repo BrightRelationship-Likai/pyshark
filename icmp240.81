@@ -13,7 +13,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                 "icmpv4-match": {
                     "icmpv4-type": 8
                 },
-                "in-port": "46"
+                "in-port": "44"
             },
             "instructions": {
                 "instruction": [
@@ -24,7 +24,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": "1",
                                     "set-dl-dst-action": {
-                                        "address": "20:0b:c7:8f:21:8d"
+                                        "address": "20:0b:c7:35:cd:02"
                                     }
                                 },
                                 {
@@ -35,13 +35,13 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 },
                                 {
                                     "set-nw-src-action": {
-                                        "ipv4-address": "172.20.240.5/32"
+                                        "ipv4-address": "172.20.240.10/32"
                                     },
                                     "order": "3"
                                 },
                                 {
                                     "set-nw-dst-action": {
-                                        "ipv4-address": "172.20.240.1/32"
+                                        "ipv4-address": "172.20.240.11/32"
                                     },
                                     "order": "4"
                                 },

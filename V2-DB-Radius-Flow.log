@@ -1,0 +1,15 @@
+step 1
+4
+2
+True
+2
+True
+4
+4
+4
+code==4
+SELECT * FROM `access_log` WHERE (radius_id=39 AND user_name='wanghong' AND framed_ip_address='172.20.92.142' AND filter_id='FTteacher|dp=3002|' AND acct_status_type='1' AND create_date >= '2020-12-24 12:01:34.329154')
+4
+code==4
+SELECT * FROM `access_log` WHERE (radius_id=238 AND user_name='xingtuo19' AND framed_ip_address='172.20.156.157' AND filter_id='FTcnc|dp=3003| ' AND acct_status_type='1' AND create_date >= '2020-12-24 12:01:36.565660')
+xingtuo19172.20.156.1570
