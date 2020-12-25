@@ -26,6 +26,8 @@ def print_callback(pkt):
     if pkt.radius.code=='2' and hasattr(pkt.radius,'filter_id') and hasattr(pkt.radius,'user_name'):
         print (hasattr(pkt.radius,'filter_id'))
         dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
+
+    #计费
     elif pkt.radius.code=='4' and pkt.radius.user_name in dict_user_group and hasattr(pkt.radius,'framed_ip_address'):
         print ("code==4")
         # 打开数据库连接
@@ -35,8 +37,9 @@ def print_callback(pkt):
         #pdb.set_trace()
         #print (pkt.radius)
         dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "' AND filter_id='" + dict_user_group[pkt.radius.user_name] + "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + "')"
-        print (dupsql)
+        # print (dupsql)
         cursor.execute(dupsql)
+        print ("need new:",cursor.fetchall() == ())
         if cursor.fetchall() == ():
             getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + dict_user_group[pkt.radius.user_name] + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
             #pdb.set_trace()		
