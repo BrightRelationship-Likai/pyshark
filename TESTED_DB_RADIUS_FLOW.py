@@ -96,7 +96,7 @@ def print_callback(pkt):
                     response = requests.request("PUT", url, headers=headers, data = payload)
                     print("url:",url)
                     print("payload:",payload)
-                    print("pesponse:",response.text.encode('utf8'))
+                    print("response:",response.text.encode('utf8'))
                 elif pkt.radius.acct_status_type == "2":
                     payload = {}
                     headers = {
@@ -109,6 +109,8 @@ def print_callback(pkt):
             checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit"
             cursor.execute(checksql)
             if cursor.fetchall() == ():
+                log=Log("DongRuan","/root/", pkt.radius.user_name)
+                log.info(pkt.radius)
                 insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],pkt.radius.acct_status_type,datetime.datetime.now())
             else:
                 insertsql="UPDATE `access_log` SET `framed_ip_address`='%s',`acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,pkt.radius.acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
@@ -119,5 +121,6 @@ def print_callback(pkt):
         # 关闭数据库连接
         db.close()
 if __name__ == '__main__':
+    # log=Log("DongRuan","/root/","dongruan.log")
     dict_user_group={}
     capture.apply_on_packets(print_callback)
