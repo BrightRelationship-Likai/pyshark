@@ -7,6 +7,7 @@ import time
 import requests
 import datetime
 import pdb
+from log import Log
 
 ip = "10.0.48.43"
 ipPort = ip + ":8181"
