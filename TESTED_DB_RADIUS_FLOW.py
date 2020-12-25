@@ -103,7 +103,10 @@ def print_callback(pkt):
             #pdb.set_trace()
             checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,dict_user_group[pkt.radius.user_name])
             cursor.execute(checksql)
-            print ("checksql res:",cursor.fetchall())
+            print ("checksql:",checksql)
+            print ("checksql res1:",cursor.fetchall())
+            print ("checksql res2:",cursor.fetchall())
+            print ("INSERT?:",cursor.fetchall() == ())
             if cursor.fetchall() == ():
                 # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
                 # log.info(str(pkt.radius))
