@@ -107,6 +107,7 @@ def print_callback(pkt):
             res1 = cursor.fetchall()
             print ("checksql res1:",res1)
             print ("INSERT?:",res1 == ())
+            acct_status_type="2"
             if pkt.radius.acct_status_type == "3":
                 acct_status_type="1"
             if res1 == ():
