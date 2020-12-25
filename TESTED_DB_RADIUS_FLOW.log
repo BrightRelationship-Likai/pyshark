@@ -1,0 +1,73 @@
+step 1
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+2
+True
+4
+4
+4
+4
+code==4
+SELECT * FROM `access_log` WHERE (radius_id=230 AND user_name='zhanghanyue19' AND framed_ip_address='172.20.145.66' AND filter_id='FTcnc|dp=3003| ' AND acct_status_type='1' AND create_date >= '2020-12-24 18:23:59.350967')
+zhanghanyue19172.20.145.660
+payload=%s {                         "flow-node-inventory:flow": [                             {                                 "table_id": 0,                                 "id": "zhanghanyue19172.20.145.660",                                 "match": {                                     "ipv4-source": "172.20.145.66/32",                                     "ipv4-destination": "192.20.240.0/24"                                 },                                 "instructions": {                                     "instruction": [                                         {                                             "order": 20,                                             "apply-actions": {                                                 "action": [                                                     {                                                         "order": 1,                                                         "output-action": {                                                             "output-node-connector": "11"                                                         }                                                     }                                                 ]                                             }                                         }                                     ]                                 },                                 "cookie": 1024,                                 "priority": 110,                                 "hard-timeout": 0,                                 "idle-timeout": 1800                             }                         ]                     }
+url=%s http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/zhanghanyue19172.20.145.660
+b''
+2
+True
+4
+4
+4
+4
+4
+4
+4
+4
+2
+True
+2
+True
+4
+4
+4
+4
+4
+4
+4
+4
+4
+code==4
+SELECT * FROM `access_log` WHERE (radius_id=97 AND user_name='wangxin0619' AND framed_ip_address='172.20.146.1' AND filter_id='FTcnc|dp=3003| ' AND acct_status_type='1' AND create_date >= '2020-12-24 18:24:01.198040')
+wangxin0619172.20.146.10
+payload=%s {                         "flow-node-inventory:flow": [                             {                                 "table_id": 0,                                 "id": "wangxin0619172.20.146.10",                                 "match": {                                     "ipv4-source": "172.20.146.1/32",                                     "ipv4-destination": "192.20.240.0/24"                                 },                                 "instructions": {                                     "instruction": [                                         {                                             "order": 20,                                             "apply-actions": {                                                 "action": [                                                     {                                                         "order": 1,                                                         "output-action": {                                                             "output-node-connector": "11"                                                         }                                                     }                                                 ]                                             }                                         }                                     ]                                 },                                 "cookie": 1024,                                 "priority": 110,                                 "hard-timeout": 0,                                 "idle-timeout": 1800                             }                         ]                     }
+url=%s http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/wangxin0619172.20.146.10
+b''
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+code==4
+SELECT * FROM `access_log` WHERE (radius_id=81 AND user_name='sunlin19' AND framed_ip_address='172.20.156.145' AND filter_id='FTcnc|dp=3003| ' AND acct_status_type='1' AND create_date >= '2020-12-24 18:24:02.815552')
