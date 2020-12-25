@@ -106,77 +106,15 @@ def print_callback(pkt):
                     requests.request("DELETE", url, headers=headers, data = payload)
                     print ("deleted")
             #pdb.set_trace()
-            insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],pkt.radius.acct_status_type,datetime.datetime.now())
+            checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit"
+            cursor.execute(checksql)
+            if cursor.fetchall() == ():
+                insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],pkt.radius.acct_status_type,datetime.datetime.now())
+            else:
+                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s',`acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,pkt.radius.acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
             cursor.execute(insertsql)
         else:
-            getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + dict_user_group[pkt.radius.user_name] + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
-            #pdb.set_trace()
-            cursor.execute(getconfigsql)
-            configdatas = cursor.fetchall()
-            for index,configdata in enumerate(configdatas):
-                flowiden = pkt.radius.user_name + pkt.radius.framed_ip_address + str(index)
-                url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
-                if configdata[1] == "0":
-                    dst_ip_address = configdata[2] + "/32"
-                elif configdata[1] == "1":
-                    dst_ip_address = configdata[3]
-                if pkt.radius.acct_status_type == "1":
-                    print (flowiden)
-
-                    headers = {
-                        'Authorization': 'Basic YWRtaW46YWRtaW4=',
-                        'Content-Type': 'application/json',
-                        'Cookie': 'JSESSIONID=i3wwhy6l01q71f0g2xr6a2qiq'
-                    }
-                    payload = '{ \n\
-                        "flow-node-inventory:flow": [ \n\
-                            { \n\
-                                "table_id": 0, \n\
-                                "id": "' + flowiden + '", \n\
-                                "match": { \n\
-                                    "ipv4-source": "' + pkt.radius.framed_ip_address + '/32", \n\
-                                    "ipv4-destination": "' + dst_ip_address + '" \n\
-                                }, \n\
-                                "instructions": { \n\
-                                    "instruction": [ \n\
-                                        { \n\
-                                            "order": 20, \n\
-                                            "apply-actions": { \n\
-                                                "action": [ \n\
-                                                    { \n\
-                                                        "order": 1, \n\
-                                                        "output-action": { \n\
-                                                            "output-node-connector": "11" \n\
-                                                        } \n\
-                                                    } \n\
-                                                ] \n\
-                                            } \n\
-                                        } \n\
-                                    ] \n\
-                                }, \n\
-                                "cookie": 1024, \n\
-                                "priority": 110, \n\
-                                "hard-timeout": 0, \n\
-                                "idle-timeout": 1800 \n\
-                            } \n\
-                        ] \n\
-                    }'
-                    response = requests.request("PUT", url, headers=headers, data = payload)
-                    print("url:",url)
-                    print("payload:",payload)
-                    print("pesponse:",response.text.encode('utf8'))
-                elif pkt.radius.acct_status_type == "2":
-                    payload = {}
-                    headers = {
-                        'Authorization': 'Basic YWRtaW46YWRtaW4=',
-                        'Cookie': 'JSESSIONID=hqf4oljgt7s71svlhzhx2jp4k'
-                    }
-                    requests.request("DELETE", url, headers=headers, data = payload)
-                    print ("deleted")
-            #pdb.set_trace()
-            insertsql="UPDATE `access_log` SET `framed_ip_address`='%s',`acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,pkt.radius.acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
-            cursor.execute(insertsql)
-
+            print("duplicated")
 
         # 关闭数据库连接
         db.close()
