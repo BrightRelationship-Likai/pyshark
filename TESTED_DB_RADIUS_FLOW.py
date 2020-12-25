@@ -15,12 +15,6 @@ capture = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1812 or ud
 #capture_group_user = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1812',display_filter='radius.code==2')
 # capture.sniff(timeout=5)
 # capture
-def group_user_callback(pkt):
-    print(pkt.radius)
-    if pkt is None or pkt.radius.user_name is None or pkt.radius.filter_id is None:
-        print ("some thing None pkt user_name or filter_id")
-    else:
-        dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
 def print_callback(pkt):
     print(pkt.radius.code)
 #    if pkt is None or pkt.radius.user_name is None or pkt.radius.framed_ip_address is None or pkt.radius.acct_status_type is None:
@@ -107,8 +101,7 @@ def print_callback(pkt):
                     requests.request("DELETE", url, headers=headers, data = payload)
                     print ("deleted")
             #pdb.set_trace()
-            checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit"
-            print ("checksql:",checksql)
+            checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,dict_user_group[pkt.radius.user_name])
             cursor.execute(checksql)
             print ("checksql res:",cursor.fetchall())
             if cursor.fetchall() == ():
