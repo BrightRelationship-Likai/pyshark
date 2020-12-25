@@ -104,10 +104,10 @@ def print_callback(pkt):
             checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,dict_user_group[pkt.radius.user_name])
             cursor.execute(checksql)
             print ("checksql:",checksql)
-            print ("checksql res1:",cursor.fetchall())
-            print ("checksql res2:",cursor.fetchall())
-            print ("INSERT?:",cursor.fetchall() == ())
-            if cursor.fetchall() == ():
+            res1 = cursor.fetchall()
+            print ("checksql res1:",res1)
+            print ("INSERT?:",res1 == ())
+            if res1 == ():
                 # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
                 # log.info(str(pkt.radius))
                 insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],pkt.radius.acct_status_type,datetime.datetime.now())
