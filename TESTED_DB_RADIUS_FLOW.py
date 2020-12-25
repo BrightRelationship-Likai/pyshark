@@ -57,39 +57,39 @@ def print_callback(pkt):
                         'Content-Type': 'application/json',
                         'Cookie': 'JSESSIONID=i3wwhy6l01q71f0g2xr6a2qiq'
                     }
-                    payload = "{ \
-                        \"flow-node-inventory:flow\": [ \
-                            { \
-                                \"table_id\": 0, \
-                                \"id\": \"" + flowiden + "\", \
-                                \"match\": { \
-                                    \"ipv4-source\": \"" + pkt.radius.framed_ip_address + "/32\", \
-                                    \"ipv4-destination\": \"" + dst_ip_address + "\" \
-                                }, \
-                                \"instructions\": { \
-                                    \"instruction\": [ \
-                                        { \
-                                            \"order\": 20, \
-                                            \"apply-actions\": { \
-                                                \"action\": [ \
-                                                    { \
-                                                        \"order\": 1, \
-                                                        \"output-action\": { \
-                                                            \"output-node-connector\": \"11\" \
-                                                        } \
-                                                    } \
-                                                ] \
-                                            } \
-                                        } \
-                                    ] \
-                                }, \
-                                \"cookie\": 1024, \
-                                \"priority\": 110, \
-                                \"hard-timeout\": 0, \
-                                \"idle-timeout\": 1800 \
-                            } \
-                        ] \
-                    }"
+                    payload = '{ \n\
+                        "flow-node-inventory:flow": [ \n\
+                            { \n\
+                                "table_id": 0, \n\
+                                "id": "" + flowiden + "", \n\
+                                "match": { \n\
+                                    "ipv4-source": "" + pkt.radius.framed_ip_address + "/32", \n\
+                                    "ipv4-destination": "" + dst_ip_address + "" \n\
+                                }, \n\
+                                "instructions": { \n\
+                                    "instruction": [ \n\
+                                        { \n\
+                                            "order": 20, \n\
+                                            "apply-actions": { \n\
+                                                "action": [ \n\
+                                                    { \n\
+                                                        "order": 1, \n\
+                                                        "output-action": { \n\
+                                                            "output-node-connector": "11" \n\
+                                                        } \n\
+                                                    } \n\
+                                                ] \n\
+                                            } \n\
+                                        } \n\
+                                    ] \n\
+                                }, \n\
+                                "cookie": 1024, \n\
+                                "priority": 110, \n\
+                                "hard-timeout": 0, \n\
+                                "idle-timeout": 1800 \n\
+                            } \n\
+                        ] \n\
+                    }'
 
                     response = requests.request("PUT", url, headers=headers, data = payload)
                     print("payload=%s",payload)
