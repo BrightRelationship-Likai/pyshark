@@ -107,12 +107,14 @@ def print_callback(pkt):
             res1 = cursor.fetchall()
             print ("checksql res1:",res1)
             print ("INSERT?:",res1 == ())
+            if pkt.radius.acct_status_type == "3":
+                acct_status_type="1"
             if res1 == ():
                 # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
                 # log.info(str(pkt.radius))
-                insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],pkt.radius.acct_status_type,datetime.datetime.now())
+                insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `acct_status_type`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],acct_status_type,datetime.datetime.now())
             else:
-                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s',`acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,pkt.radius.acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
+                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s',`acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
             cursor.execute(insertsql)
         else:
             print("duplicated")
