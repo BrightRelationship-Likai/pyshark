@@ -61,10 +61,10 @@ def print_callback(pkt):
                         "flow-node-inventory:flow": [ \n\
                             { \n\
                                 "table_id": 0, \n\
-                                "id": "" + flowiden + "", \n\
+                                "id": "' + flowiden + '", \n\
                                 "match": { \n\
-                                    "ipv4-source": "" + pkt.radius.framed_ip_address + "/32", \n\
-                                    "ipv4-destination": "" + dst_ip_address + "" \n\
+                                    "ipv4-source": "' + pkt.radius.framed_ip_address + '/32", \n\
+                                    "ipv4-destination": "' + dst_ip_address + '" \n\
                                 }, \n\
                                 "instructions": { \n\
                                     "instruction": [ \n\
@@ -90,11 +90,10 @@ def print_callback(pkt):
                             } \n\
                         ] \n\
                     }'
-
                     response = requests.request("PUT", url, headers=headers, data = payload)
-                    print("payload=%s",payload)
-                    print("url=%s",url)
-                    print(response.text.encode('utf8'))
+                    print("url:",url)
+                    print("payload:",payload)
+                    print("pesponse:",response.text.encode('utf8'))
                 elif pkt.radius.acct_status_type == "2":
                     payload = {}
                     headers = {
@@ -111,10 +110,6 @@ def print_callback(pkt):
 
         # 关闭数据库连接
         db.close()
-    #time.sleep( 1 )
 if __name__ == '__main__':
     dict_user_group={}
-    print ("step 1")
-#    capture_group_user.apply_on_packets(group_user_callback)
     capture.apply_on_packets(print_callback)
-#capture.sniff_continuously(packet_count=10)
