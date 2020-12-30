@@ -164,11 +164,12 @@ def print_callback(pkt):
         res1 = cursor.fetchall()
         print ("5checksql res1:",res1)
         print ("5INSERT?:",res1 == ())
-        acct_status_type=pkt.radius.acct_status_type
         if pkt.radius.reply_message == "acct start ok":
             acct_status_type="1"
         elif pkt.radius.reply_message == "acct stop ok":
             acct_status_type="2"
+        else:
+            return None
         if res1 == ():
             # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
             # log.info(str(pkt.radius))
