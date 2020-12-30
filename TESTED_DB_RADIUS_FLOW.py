@@ -158,7 +158,7 @@ def print_callback(pkt):
                     requests.request("DELETE", url, headers=headers, data = payload)
                     print ("deleted")
         #pdb.set_trace()
-        checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,filter_id)
+        checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (user_name,filter_id)
         cursor.execute(checksql)
         print ("5checksql:",checksql)
         res1 = cursor.fetchall()
@@ -174,7 +174,7 @@ def print_callback(pkt):
             # log.info(str(pkt.radius))
             insertsql="INSERT INTO `access_log` (`acct_status_type`, `create_date`) VALUES ('%s', '%s');commit" % (acct_status_type,datetime.datetime.now())
         else:
-            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),pkt.radius.user_name)
+            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),user_name)
         cursor.execute(insertsql)
         # if pkt.radius.reply_message == "acct start ok":
 
