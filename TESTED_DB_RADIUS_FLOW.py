@@ -15,28 +15,34 @@ capture = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1812 or ud
 #capture_group_user = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1812',display_filter='radius.code==2')
 # capture.sniff(timeout=5)
 # capture
-def print_callback(pkt,cursor):
+def print_callback(pkt):
     print(pkt.radius.code)
+
+    # 打开数据库连接
+    db = MySQLdb.connect(ip, "root", "123sql", "sdn", charset='utf8')
+    # 使用cursor()方法获取操作游标
+    cursor = db.cursor()
+
 #    if pkt is None or pkt.radius.user_name is None or pkt.radius.framed_ip_address is None or pkt.radius.acct_status_type is None:
     if pkt.radius.code=='2' and hasattr(pkt.radius,'filter_id') and hasattr(pkt.radius,'user_name'):
         print (hasattr(pkt.radius,'filter_id'))
-        dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
+        # dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
         insertsql="if not exists (select * from `access_log` where user_name = '%s');INSERT INTO `access_log` (user_name,filter_id) VALUES('%s','%s');else update `access_log` set filter_id = '%s' where user_name = '%s';commit"% (pkt.radius.user_name,pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id,pkt.radius.user_name)
         cursor.execute(insertsql)
 
     #计费
-    elif pkt.radius.code=='4' and pkt.radius.user_name in dict_user_group and hasattr(pkt.radius,'framed_ip_address'):
+    elif pkt.radius.code=='4' and hasattr(pkt.radius,'framed_ip_address'):
         print ("code==4")
 
         #pdb.set_trace()
         #print (pkt.radius)
-        dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "' AND filter_id='" + dict_user_group[pkt.radius.user_name] + "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + "')"
+        dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + "')"
         # print (dupsql)
         cursor.execute(dupsql)
         print ("need new:",cursor.fetchall() == ())
         if cursor.fetchall() == ():
             #pdb.set_trace()
-            checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,dict_user_group[pkt.radius.user_name])
+            checksql="SELECT `filter_id` FROM `access_log` WHERE `user_name`='%s';commit" % (pkt.radius.user_name)
             cursor.execute(checksql)
             print ("checksql:",checksql)
             res1 = cursor.fetchall()
@@ -49,9 +55,10 @@ def print_callback(pkt,cursor):
             if res1 == ():
                 # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
                 # log.info(str(pkt.radius))
-                insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],timenow)
+                # insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],timenow)
+                print ("user_name user_group(filter)  name not exisist ERROR")
             else:
-                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
+                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name)
             cursor.execute(insertsql)
             insradidsql="if not exists (select * from `access_radiusid` where `radius_id` = '%s');INSERT INTO `access_radiusid` (`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s');else update `access_radiusid` set `user_name`='%s',framed_ip_address`='%s',`filter_id` = '%s',``create_date`='%s' where radius_id = '%s';commit"% \
                         (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
@@ -73,7 +80,7 @@ def print_callback(pkt,cursor):
         filter_id = cursor.fetchall()[0][2]
         print ("5filter_id:",filter_id)
 
-        getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + dict_user_group[pkt.radius.user_name] + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
+        getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + filter_id + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
         #pdb.set_trace()
         cursor.execute(getconfigsql)
         configdatas = cursor.fetchall()
@@ -138,7 +145,7 @@ def print_callback(pkt,cursor):
                 requests.request("DELETE", url, headers=headers, data = payload)
                 print ("deleted")
         #pdb.set_trace()
-        checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,dict_user_group[pkt.radius.user_name])
+        checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,filter_id)
         cursor.execute(checksql)
         print ("5checksql:",checksql)
         res1 = cursor.fetchall()
@@ -154,17 +161,12 @@ def print_callback(pkt,cursor):
             # log.info(str(pkt.radius))
             insertsql="INSERT INTO `access_log` (`acct_status_type`, `create_date`) VALUES ('%s', '%s');commit" % (acct_status_type,datetime.datetime.now())
         else:
-            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (acct_status_type,datetime.datetime.now(),pkt.radius.user_name, dict_user_group[pkt.radius.user_name])
+            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),pkt.radius.user_name)
         cursor.execute(insertsql)
         # if pkt.radius.reply_message == "acct start ok":
 
-if __name__ == '__main__':
-    # 打开数据库连接
-    db = MySQLdb.connect(ip, "root", "123sql", "sdn", charset='utf8')
-    # 使用cursor()方法获取操作游标
-    cursor = db.cursor()
-    # log=Log("DongRuan","/home/SDN/pyshark/","dongruan.log")
-    dict_user_group={}
-    capture.apply_on_packets(print_callback,cursor)
     # 关闭数据库连接 never reached
     db.close()
+if __name__ == '__main__':
+    # dict_user_group={}
+    capture.apply_on_packets(print_callback)
