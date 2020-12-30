@@ -28,6 +28,7 @@ def print_callback(pkt):
         print (hasattr(pkt.radius,'filter_id'))
         # dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
         insertsql="if not exists (select * from `access_log` where user_name = '%s');INSERT INTO `access_log` (user_name,filter_id) VALUES('%s','%s');else update `access_log` set filter_id = '%s' where user_name = '%s';commit"% (pkt.radius.user_name,pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id,pkt.radius.user_name)
+        print("insertsql====",insertsql)
         cursor.execute(insertsql)
 
     #计费
@@ -57,6 +58,7 @@ def print_callback(pkt):
                 # log.info(str(pkt.radius))
                 # insertsql="INSERT INTO `access_log` (`radius_id`, `user_name`, `framed_ip_address`, `filter_id`, `create_date`) VALUES (%s, '%s', '%s', '%s', '%s');commit" % (pkt.radius.id, pkt.radius.user_name, pkt.radius.framed_ip_address, dict_user_group[pkt.radius.user_name],timenow)
                 print ("user_name user_group(filter)  name not exisist ERROR")
+                return None
             else:
                 insertsql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name)
             cursor.execute(insertsql)
@@ -71,7 +73,7 @@ def print_callback(pkt):
     #计费
     elif pkt.radius.code=='5' and hasattr(pkt.radius,'reply_message'):
         print ("code==5")
-        getdusersql="SELECT `user_name`,`framed_ip_address`,`filter_id` FROM `access_radiusid` WHERE `radius.id`='%s' ;commit" % (pkt.radius.id)
+        getdusersql="SELECT `user_name`,`framed_ip_address`,`filter_id` FROM `access_radiusid` WHERE `radius_id`='%s' ;commit" % (pkt.radius.id)
         cursor.execute(getdusersql)
         user_name = cursor.fetchall()[0][0]
         print ("5user_name:",user_name)
