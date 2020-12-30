@@ -61,12 +61,12 @@ def print_callback(pkt):
                 print ("user_name user_group(filter)  name not exisist ERROR")
                 return None
             else:
-                insertsql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name)
-            cursor.execute(insertsql)
+                updatesql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name)
+                cursor.execute(updatesql)
             # insradidsql="if not exists (select * from `access_radiusid` where `radius_id` = '%s');INSERT INTO `access_radiusid` (`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s');else update `access_radiusid` set `user_name`='%s',framed_ip_address`='%s',`filter_id` = '%s',``create_date`='%s' where radius_id = '%s';commit"% \
             #             (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
-            insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `create_date`) VALUES('%s','%s','%s','%s') on duplicate key update radius_id = '%s';commit"% \
-                        (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,timenow,pkt.radius.id)
+                insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `filter_id`,`create_date`) VALUES('%s','%s','%s','%s','%s') on duplicate key update radius_id = '%s';commit"% \
+                        (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,res1[0][0],timenow,pkt.radius.id)
             cursor.execute(insradidsql)
         else:
             print("duplicated")
@@ -86,7 +86,7 @@ def print_callback(pkt):
             user_name = access_radiuses[0][0]
             print ("5user_name:",user_name)
             framed_ip_address = access_radiuses[0][1]
-            print ("5filter_id:",framed_ip_address)
+            print ("5framed_ip_address:",framed_ip_address)
             filter_id = access_radiuses[0][2]
             print ("5filter_id:",filter_id)
 
