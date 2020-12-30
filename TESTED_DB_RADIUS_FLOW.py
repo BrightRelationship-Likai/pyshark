@@ -65,8 +65,8 @@ def print_callback(pkt):
             cursor.execute(insertsql)
             # insradidsql="if not exists (select * from `access_radiusid` where `radius_id` = '%s');INSERT INTO `access_radiusid` (`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s');else update `access_radiusid` set `user_name`='%s',framed_ip_address`='%s',`filter_id` = '%s',``create_date`='%s' where radius_id = '%s';commit"% \
             #             (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
-            insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s','%s') on duplicate key update radius_id = '%s';commit"% \
-                        (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
+            insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `create_date`) VALUES('%s','%s','%s','%s') on duplicate key update radius_id = '%s';commit"% \
+                        (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,timenow,pkt.radius.id)
             cursor.execute(insradidsql)
         else:
             print("duplicated")
