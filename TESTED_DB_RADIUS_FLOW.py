@@ -31,7 +31,7 @@ def print_callback(pkt):
         cursor.execute(insertsql)
 
     #计费
-    elif pkt.radius.code=='4' and hasattr(pkt.radius,'framed_ip_address'):
+    elif pkt.radius.code=='4' and hasattr(pkt.radius,'framed_ip_address') and hasattr(pkt.radius,'acct_status_type'):
         print ("code==4")
 
         #pdb.set_trace()
@@ -49,9 +49,9 @@ def print_callback(pkt):
             print ("checksql res1:",res1)
             print ("INSERT?:",res1 == ())
             timenow = datetime.datetime.now()
-            acct_status_type=pkt.radius.acct_status_type
-            if pkt.radius.acct_status_type == "3":
-                acct_status_type="1"
+            # acct_status_type=pkt.radius.acct_status_type
+            # if pkt.radius.acct_status_type == "3":
+            #     acct_status_type="1"
             if res1 == ():
                 # log=Log("DongRuan","/home/SDN/pyshark/", pkt.radius.user_name)
                 # log.info(str(pkt.radius))
