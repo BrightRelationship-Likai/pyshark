@@ -83,11 +83,11 @@ def print_callback(pkt):
             print ("radius_id %s not found in acces_radiusid")
             return None
         else:
-            user_name = cursor.fetchall()[0][0]
+            user_name = access_radiuses[0][0]
             print ("5user_name:",user_name)
-            framed_ip_address = cursor.fetchall()[0][1]
+            framed_ip_address = access_radiuses[0][1]
             print ("5filter_id:",framed_ip_address)
-            filter_id = cursor.fetchall()[0][2]
+            filter_id = access_radiuses[0][2]
             print ("5filter_id:",filter_id)
 
             getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + filter_id + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
