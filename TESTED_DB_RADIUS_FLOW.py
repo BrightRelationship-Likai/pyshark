@@ -27,7 +27,7 @@ def print_callback(pkt):
     if pkt.radius.code=='2' and hasattr(pkt.radius,'filter_id') and hasattr(pkt.radius,'user_name'):
         print (hasattr(pkt.radius,'filter_id'))
         # dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
-        insertsql="insert into `access_log` (user_name,filter_id)  VALUES('%s','%s') on duplicate key on update user_name = '%s';commit" % (pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.user_name)
+        insertsql="insert into `access_log` (user_name,filter_id)  VALUES('%s','%s') on duplicate key update user_name = '%s';commit" % (pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.user_name)
         # insertsql="if not exists (select * from `access_log` where user_name = '%s');INSERT INTO `access_log` (user_name,filter_id) VALUES('%s','%s');else update `access_log` set filter_id = '%s' where user_name = '%s';commit"% (pkt.radius.user_name,pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id,pkt.radius.user_name)
         print("insertsql====",insertsql)
         cursor.execute(insertsql)
@@ -65,7 +65,7 @@ def print_callback(pkt):
             cursor.execute(insertsql)
             # insradidsql="if not exists (select * from `access_radiusid` where `radius_id` = '%s');INSERT INTO `access_radiusid` (`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s');else update `access_radiusid` set `user_name`='%s',framed_ip_address`='%s',`filter_id` = '%s',``create_date`='%s' where radius_id = '%s';commit"% \
             #             (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
-            insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s','%s') on duplicate key on update radius_id = '%s';commit"% \
+            insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s','%s') on duplicate key update radius_id = '%s';commit"% \
                         (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
             cursor.execute(insradidsql)
         else:
