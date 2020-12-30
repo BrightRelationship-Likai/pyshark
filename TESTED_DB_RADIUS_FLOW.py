@@ -3,11 +3,11 @@
 
 import MySQLdb
 import pyshark
-import time
+# import time
 import requests
 import datetime
-import pdb
-from log import Log
+# import pdb
+# from log import Log
 
 ip = "10.0.48.43"
 ipPort = ip + ":8181"
@@ -88,12 +88,15 @@ def print_callback(pkt):
         cursor.execute(getconfigsql)
         configdatas = cursor.fetchall()
         for index,configdata in enumerate(configdatas):
-            flowiden = hash(user_name + configdata[0])
+            flowiden = str(hash(user_name + configdata[0]))
             url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
             if configdata[1] == "0":
                 dst_ip_address = configdata[2] + "/32"
             elif configdata[1] == "1":
                 dst_ip_address = configdata[3]
+            else:
+                print ("ip type error")
+                return None
             if pkt.radius.reply_message == "acct start ok":
                 print (flowiden)
 
