@@ -76,80 +76,85 @@ def print_callback(pkt):
         print ("code==5")
         getdusersql="SELECT `user_name`,`framed_ip_address`,`filter_id` FROM `access_radiusid` WHERE `radius_id`='%s' ;commit" % (pkt.radius.id)
         cursor.execute(getdusersql)
-        user_name = cursor.fetchall()[0][0]
-        print ("5user_name:",user_name)
-        framed_ip_address = cursor.fetchall()[0][1]
-        print ("5filter_id:",framed_ip_address)
-        filter_id = cursor.fetchall()[0][2]
-        print ("5filter_id:",filter_id)
+        access_radiuses=cursor.fetchall()
+        if access_radiuses == ():
+            print ("radius_id %s not found in acces_radiusid")
+            return None
+        else:
+            user_name = cursor.fetchall()[0][0]
+            print ("5user_name:",user_name)
+            framed_ip_address = cursor.fetchall()[0][1]
+            print ("5filter_id:",framed_ip_address)
+            filter_id = cursor.fetchall()[0][2]
+            print ("5filter_id:",filter_id)
 
-        getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + filter_id + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
-        #pdb.set_trace()
-        cursor.execute(getconfigsql)
-        configdatas = cursor.fetchall()
-        for index,configdata in enumerate(configdatas):
-            flowiden = str(hash(user_name + configdata[0]))
-            url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
-            if configdata[1] == "0":
-                dst_ip_address = configdata[2] + "/32"
-            elif configdata[1] == "1":
-                dst_ip_address = configdata[3]
-            else:
-                print ("ip type error")
-                return None
-            if pkt.radius.reply_message == "acct start ok":
-                print (flowiden)
+            getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + filter_id + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
+            #pdb.set_trace()
+            cursor.execute(getconfigsql)
+            configdatas = cursor.fetchall()
+            for index,configdata in enumerate(configdatas):
+                flowiden = str(hash(user_name + configdata[0]))
+                url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
+                if configdata[1] == "0":
+                    dst_ip_address = configdata[2] + "/32"
+                elif configdata[1] == "1":
+                    dst_ip_address = configdata[3]
+                else:
+                    print ("ip type error")
+                    return None
+                if pkt.radius.reply_message == "acct start ok":
+                    print (flowiden)
 
-                headers = {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
-                    'Content-Type': 'application/json',
-                    'Cookie': 'JSESSIONID=i3wwhy6l01q71f0g2xr6a2qiq'
-                }
-                payload = '{ \n\
-                        "flow-node-inventory:flow": [ \n\
-                            { \n\
-                                "table_id": 0, \n\
-                                "id": "' + flowiden + '", \n\
-                                "match": { \n\
-                                    "ipv4-source": "' + framed_ip_address + '/32", \n\
-                                    "ipv4-destination": "' + dst_ip_address + '" \n\
-                                }, \n\
-                                "instructions": { \n\
-                                    "instruction": [ \n\
-                                        { \n\
-                                            "order": 20, \n\
-                                            "apply-actions": { \n\
-                                                "action": [ \n\
-                                                    { \n\
-                                                        "order": 1, \n\
-                                                        "output-action": { \n\
-                                                            "output-node-connector": "11" \n\
+                    headers = {
+                        'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                        'Content-Type': 'application/json',
+                        'Cookie': 'JSESSIONID=i3wwhy6l01q71f0g2xr6a2qiq'
+                    }
+                    payload = '{ \n\
+                            "flow-node-inventory:flow": [ \n\
+                                { \n\
+                                    "table_id": 0, \n\
+                                    "id": "' + flowiden + '", \n\
+                                    "match": { \n\
+                                        "ipv4-source": "' + framed_ip_address + '/32", \n\
+                                        "ipv4-destination": "' + dst_ip_address + '" \n\
+                                    }, \n\
+                                    "instructions": { \n\
+                                        "instruction": [ \n\
+                                            { \n\
+                                                "order": 20, \n\
+                                                "apply-actions": { \n\
+                                                    "action": [ \n\
+                                                        { \n\
+                                                            "order": 1, \n\
+                                                            "output-action": { \n\
+                                                                "output-node-connector": "11" \n\
+                                                            } \n\
                                                         } \n\
-                                                    } \n\
-                                                ] \n\
+                                                    ] \n\
+                                                } \n\
                                             } \n\
-                                        } \n\
-                                    ] \n\
-                                }, \n\
-                                "cookie": 1024, \n\
-                                "priority": 110, \n\
-                                "hard-timeout": 0, \n\
-                                "idle-timeout": 1800 \n\
-                            } \n\
-                        ] \n\
-                    }'
-                response = requests.request("PUT", url, headers=headers, data = payload)
-                print("url:",url)
-                print("payload:",payload)
-                print("response:",response.text.encode('utf8'))
-            elif pkt.radius.reply_message == "acct stop ok":
-                payload = {}
-                headers = {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
-                    'Cookie': 'JSESSIONID=hqf4oljgt7s71svlhzhx2jp4k'
-                }
-                requests.request("DELETE", url, headers=headers, data = payload)
-                print ("deleted")
+                                        ] \n\
+                                    }, \n\
+                                    "cookie": 1024, \n\
+                                    "priority": 110, \n\
+                                    "hard-timeout": 0, \n\
+                                    "idle-timeout": 1800 \n\
+                                } \n\
+                            ] \n\
+                        }'
+                    response = requests.request("PUT", url, headers=headers, data = payload)
+                    print("url:",url)
+                    print("payload:",payload)
+                    print("response:",response.text.encode('utf8'))
+                elif pkt.radius.reply_message == "acct stop ok":
+                    payload = {}
+                    headers = {
+                        'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                        'Cookie': 'JSESSIONID=hqf4oljgt7s71svlhzhx2jp4k'
+                    }
+                    requests.request("DELETE", url, headers=headers, data = payload)
+                    print ("deleted")
         #pdb.set_trace()
         checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (pkt.radius.user_name,filter_id)
         cursor.execute(checksql)
