@@ -27,7 +27,7 @@ def print_callback(pkt):
     if pkt.radius.code=='2' and hasattr(pkt.radius,'filter_id') and hasattr(pkt.radius,'user_name'):
         print (hasattr(pkt.radius,'filter_id'))
         # dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
-        insertsql="insert into `access_log` (user_name,filter_id)  VALUES('%s','%s') on duplicate key update user_name = '%s';commit" % (pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.user_name)
+        insertsql="insert into `access_log` (user_name,filter_id)  VALUES('%s','%s') on duplicate key update filter_id = '%s';commit" % (pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id)
         # insertsql="if not exists (select * from `access_log` where user_name = '%s');INSERT INTO `access_log` (user_name,filter_id) VALUES('%s','%s');else update `access_log` set filter_id = '%s' where user_name = '%s';commit"% (pkt.radius.user_name,pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id,pkt.radius.user_name)
         print("insertsql====",insertsql)
         cursor.execute(insertsql)
