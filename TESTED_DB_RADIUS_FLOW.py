@@ -38,11 +38,13 @@ def print_callback(pkt):
 
         #pdb.set_trace()
         #print (pkt.radius)
-        dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + "')"
+        # "' AND acct_status_type='" + pkt.radius.acct_status_type + "' AND create_date >= '" + str(datetime.datetime.now() - datetime.timedelta(seconds=3)) + \
+        dupsql = "SELECT * FROM `access_log` WHERE (radius_id=" + pkt.radius.id + " AND user_name='" + pkt.radius.user_name + "' AND framed_ip_address='" + pkt.radius.framed_ip_address + "')"
         # print (dupsql)
         cursor.execute(dupsql)
-        print ("need new:",cursor.fetchall() == ())
-        if cursor.fetchall() == ():
+        dupcheckres = cursor.fetchall()
+        print ("need new:",dupcheckres == ())
+        if dupcheckres == ():
             #pdb.set_trace()
             checksql="SELECT `filter_id` FROM `access_log` WHERE `user_name`='%s';commit" % (pkt.radius.user_name)
             cursor.execute(checksql)
@@ -61,7 +63,7 @@ def print_callback(pkt):
                 print ("user_name user_group(filter)  name not exisist ERROR")
                 return None
             else:
-                updatesql="UPDATE `access_log` SET `framed_ip_address`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,datetime.datetime.now(),pkt.radius.user_name)
+                updatesql="UPDATE `access_log` SET `framed_ip_address`='%s' WHERE `user_name`='%s';commit" % (pkt.radius.framed_ip_address,pkt.radius.user_name)
                 cursor.execute(updatesql)
             # insradidsql="if not exists (select * from `access_radiusid` where `radius_id` = '%s');INSERT INTO `access_radiusid` (`user_name`,`framed_ip_address`, `filter_id`, `create_date`) VALUES('%s','%s','%s','%s');else update `access_radiusid` set `user_name`='%s',framed_ip_address`='%s',`filter_id` = '%s',``create_date`='%s' where radius_id = '%s';commit"% \
             #             (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
