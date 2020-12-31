@@ -6,7 +6,7 @@ import pyshark
 # import time
 import requests
 import datetime
-# import pdb
+import pdb
 # from log import Log
 
 ip = "10.0.48.43"
@@ -164,9 +164,9 @@ def print_callback(pkt):
         res1 = cursor.fetchall()
         print ("5checksql res1:",res1)
         print ("5INSERT?:",res1 == ())
-        if pkt.radius.reply_message == "acct start ok":
+        if "acct start ok" in pkt.radius.reply_message:
             acct_status_type="1"
-        elif pkt.radius.reply_message == "acct stop ok":
+        elif "acct stop ok" in pkt.radius.reply_message:
             acct_status_type="2"
         else:
             return None
