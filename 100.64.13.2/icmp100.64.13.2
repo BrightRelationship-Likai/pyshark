@@ -1,10 +1,10 @@
-curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/icmp240.81' \
+curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/icmp100.64.13.2' \
 --header 'Authorization: Basic YWRtaW46YWRtaW4=' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "flow-node-inventory:flow": [
         {
-            "id": "icmp240.81",
+            "id": "icmp100.64.13.2",
             "priority": 9000,
             "cookie": 10,
             "table_id": 0,
@@ -13,8 +13,8 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                 "icmpv4-match": {
                     "icmpv4-type": 8
                 },
-                "in-port": "44",
-                "ipv4-destination":"100.64.12.2/32"
+                "in-port": "43",
+                "ipv4-destination":"100.64.13.2/32"
             },
             "instructions": {
                 "instruction": [
@@ -25,24 +25,24 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                                 {
                                     "order": "1",
                                     "set-dl-dst-action": {
-                                        "address": "70:79:90:06:e2:7c"
+                                        "address": "8c:68:3a:63:37:c9"
                                     }
                                 },
                                 {
                                     "set-dl-src-action": {
-                                        "address": "de:ad:be:ef:00:44"
+                                        "address": "de:ad:be:ef:00:43"
                                     },
                                     "order": "2"
                                 },
                                 {
                                     "set-nw-src-action": {
-                                        "ipv4-address": "100.64.12.2/32"
+                                        "ipv4-address": "100.64.13.2/32"
                                     },
                                     "order": "3"
                                 },
                                 {
                                     "set-nw-dst-action": {
-                                        "ipv4-address": "100.64.12.1/32"
+                                        "ipv4-address": "100.64.13.1/32"
                                     },
                                     "order": "4"
                                 },
