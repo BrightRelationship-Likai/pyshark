@@ -1,0 +1,664 @@
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lixin';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='guopeng';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='aihuayu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: wangdong
+5framed_ip_address: 172.20.110.250
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='wangdong' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((1, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (2, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (3, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (6, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (17, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (19, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (24, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (25, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='songqianqian';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: songqianqian
+5framed_ip_address: 172.20.109.252
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='songqianqian' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((21, 'songqianqian', '172.20.109.252', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 59, 36), None), (23, 'songqianqian', '172.20.109.252', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 59, 36), None))
+5INSERT?: False
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('peizhechen','FTteacher|dp=3002|') on duplicate key update user_name = 'peizhechen';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='peizhechen';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: peizhechen
+5framed_ip_address: 172.20.113.110
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='peizhechen' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((8, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 59, 41), None), (13, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 59, 41), None), (27, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 59, 41), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='quyang';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: wangdong
+5framed_ip_address: 172.20.110.250
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='wangdong' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((1, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (2, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (3, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (6, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (17, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (19, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (24, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (25, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None))
+5INSERT?: False
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangxinyuan';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('lishuangyan','FTteacher|dp=3002|') on duplicate key update user_name = 'lishuangyan';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lishuangyan';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: lishuangyan
+5framed_ip_address: 172.20.113.115
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='lishuangyan' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((18, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 59, 47), None), (28, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 59, 47), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='Evan';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lixuesong';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='aihuayu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='aihuayu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangyanqiu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('sce.sunfuzhi19','FTstudent|dp=3001| ') on duplicate key update user_name = 'sce.sunfuzhi19';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='longyuhan';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('lishuangyan','FTteacher|dp=3002|') on duplicate key update user_name = 'lishuangyan';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lishuangyan';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: lishuangyan
+5framed_ip_address: 172.20.113.115
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='lishuangyan' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((18, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 59, 57), None), (28, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 59, 57), None), (30, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 59, 57), None))
+5INSERT?: False
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhaolu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('wangbingbing2','FTteacher|dp=3002|') on duplicate key update user_name = 'wangbingbing2';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='xuhang';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangbingbing2';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: caoyushi
+5framed_ip_address: 172.20.113.114
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='caoyushi' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((7, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (9, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (10, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (11, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (12, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (14, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 57, 7), None), (15, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 19, 57, 7), None), (20, 'caoyushi', None, 'FTteacher|dp=3002|', None, None, None), (26, 'caoyushi', None, 'FTteacher|dp=3002|', None, None, None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangbingbing2';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: wangbingbing2
+5framed_ip_address: 172.20.112.134
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='wangbingbing2' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((22, 'wangbingbing2', '172.20.112.134', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 20, 0, 1), None), (31, 'wangbingbing2', '172.20.112.134', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 20, 0, 1), None))
+5INSERT?: False
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhangqianyi';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lilin_ys';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhangtong';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='qulianzhuang';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+True
+insertsql==== insert into `access_log` (user_name,filter_id)  VALUES('lishuangyan','FTteacher|dp=3002|') on duplicate key update user_name = 'lishuangyan';commit
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhuruiqi';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: gaohan17
+5framed_ip_address: 172.20.175.198
+5filter_id: FTcnc|dp=3003| 
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='gaohan17' AND `filter_id`='FTcnc|dp=3003| ';commit
+5checksql res1: ((4, 'gaohan17', '172.20.175.198', 'FTcnc|dp=3003| ', '1', datetime.datetime(2020, 12, 30, 19, 56, 12), None), (5, 'gaohan17', '172.20.175.198', 'FTcnc|dp=3003| ', '1', datetime.datetime(2020, 12, 30, 19, 56, 12), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lishuangyan';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: lishuangyan
+5framed_ip_address: 172.20.113.115
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='lishuangyan' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((18, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 6), None), (28, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 6), None), (30, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 6), None), (32, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 20, 0, 6), None))
+5INSERT?: False
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lishuangyan';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='sw_zhaoyuxin';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='shaoyu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='dingni';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='shaoyu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='jiaolina';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='dingni';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: wangdong
+5framed_ip_address: 172.20.110.250
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='wangdong' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((1, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (2, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (3, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (6, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (17, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (19, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (24, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (25, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='peizhechen';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: peizhechen
+5framed_ip_address: 172.20.113.110
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='peizhechen' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((8, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 11), None), (13, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 11), None), (27, 'peizhechen', '172.20.113.110', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 11), None))
+5INSERT?: False
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='panheming';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='chenwanlu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='huangwei';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='liuwanqi';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lishuangyan';commit
+checksql res1: (('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',), ('FTteacher|dp=3002|',))
+INSERT?: False
+5
+code==5
+5user_name: lishuangyan
+5framed_ip_address: 172.20.113.115
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='lishuangyan' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((18, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 20), None), (28, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 20), None), (30, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 20), None), (32, 'lishuangyan', '172.20.113.115', 'FTteacher|dp=3002|', None, datetime.datetime(2020, 12, 30, 20, 0, 20), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhongyining';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: wangdong
+5framed_ip_address: 172.20.110.250
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='wangdong' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((1, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (2, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (3, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (6, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (17, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (19, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (24, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None), (25, 'wangdong', '172.20.110.250', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 19, 58, 21), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='leitao';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangyuhang';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='lixiaobin';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='manuo';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangxu';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='douqiao';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='hupeng';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='maxiaoya';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhangminghui';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='hanti';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='wangjincheng';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='zhangqiunan';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='liuwanqi';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+2
+2
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='guopeng';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='xiaokaiyue';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+5user_name: caoyushi
+5framed_ip_address: 172.20.113.114
+5filter_id: FTteacher|dp=3002|
+5checksql: SELECT * FROM `access_log` WHERE `user_name`='caoyushi' AND `filter_id`='FTteacher|dp=3002|';commit
+5checksql res1: ((7, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (9, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (10, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (11, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (12, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (14, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (15, 'caoyushi', '172.20.113.114', 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (20, 'caoyushi', None, 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None), (26, 'caoyushi', None, 'FTteacher|dp=3002|', '1', datetime.datetime(2020, 12, 30, 20, 0, 1), None))
+5INSERT?: False
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='xiaokaiyue';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid
+4
+code==4
+need new: True
+checksql: SELECT `filter_id` FROM `access_log` WHERE `user_name`='sunshuning';commit
+checksql res1: ()
+INSERT?: True
+user_name user_group(filter)  name not exisist ERROR
+5
+code==5
+radius_id %s not found in acces_radiusid

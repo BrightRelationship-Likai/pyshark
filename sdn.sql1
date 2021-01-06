@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `access_radiusid`;
+CREATE TABLE `access_radiusid` (
+  `user_name` varchar(64) DEFAULT NULL COMMENT '用户名称',
+  `framed_ip_address` varchar(32) DEFAULT NULL COMMENT '用户IP',
+  `filter_id` varchar(32) DEFAULT NULL COMMENT '角色',
+  `acct_status_type` varchar(10) DEFAULT NULL COMMENT '登录状态',
+  `create_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `radius_id` int(24) NOT NULL COMMENT 'radius  ID',
+  PRIMARY KEY (`radius_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8336 DEFAULT CHARSET=utf8;
