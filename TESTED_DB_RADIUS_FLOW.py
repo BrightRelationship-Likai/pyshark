@@ -6,6 +6,7 @@ import pyshark
 # import time
 import requests
 import datetime
+import json
 import pdb
 # from log import Log
 
@@ -98,7 +99,8 @@ def print_callback(pkt):
             configdatas = cursor.fetchall()
             for index,configdata in enumerate(configdatas):
                 flowiden = str(hash(user_name + configdata[0]))
-                url = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden
+                urlforward = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden + "f"
+                urlback = "http://" + ipPort + "/restconf/config/opendaylight-inventory:nodes/node/openflow:147059310694/flow-node-inventory:table/0/flow/" + flowiden + "b"
                 if configdata[1] == "0":
                     dst_ip_address = configdata[2] + "/32"
                 elif configdata[1] == "1":
@@ -114,50 +116,131 @@ def print_callback(pkt):
                         'Content-Type': 'application/json',
                         'Cookie': 'JSESSIONID=i3wwhy6l01q71f0g2xr6a2qiq'
                     }
-                    payload = '{ \n\
-                            "flow-node-inventory:flow": [ \n\
-                                { \n\
-                                    "table_id": 0, \n\
-                                    "id": "' + flowiden + '", \n\
-                                    "match": { \n\
-                                        "ipv4-source": "' + framed_ip_address + '/32", \n\
-                                        "ipv4-destination": "' + dst_ip_address + '" \n\
-                                    }, \n\
-                                    "instructions": { \n\
-                                        "instruction": [ \n\
-                                            { \n\
-                                                "order": 20, \n\
-                                                "apply-actions": { \n\
-                                                    "action": [ \n\
-                                                        { \n\
-                                                            "order": 1, \n\
-                                                            "output-action": { \n\
-                                                                "output-node-connector": "11" \n\
-                                                            } \n\
-                                                        } \n\
-                                                    ] \n\
-                                                } \n\
-                                            } \n\
-                                        ] \n\
-                                    }, \n\
-                                    "cookie": 1024, \n\
-                                    "priority": 110, \n\
-                                    "hard-timeout": 0, \n\
-                                    "idle-timeout": 1800 \n\
-                                } \n\
-                            ] \n\
-                        }'
-                    response = requests.request("PUT", url, headers=headers, data = payload)
-                    print("url:",url)
-                    print("payload:",payload)
-                    print("response:",response.text.encode('utf8'))
+                    bodyforward = {
+                            "flow-node-inventory:flow": [
+                                {
+                                    "table_id": 0,
+                                    "id": flowiden + "f",
+                                    "match": {
+                                        "ethernet-match": {
+                                            "ethernet-destination": {
+                                                "address": "de:ad:be:ef:00:44"
+                                            },
+                                            "ethernet-type": {
+                                                "type": 2048
+                                            }
+                                        },
+                                        "in-port":"44",
+                                        "ipv4-source": framed_ip_address + '/32',
+                                        "ipv4-destination": dst_ip_address
+                                    },
+                                    "instructions": {
+                                        "instruction": [
+                                            {
+                                                "order": 20,
+                                                "apply-actions": {
+                                                    "action": [
+                                                        {
+                                                            "order": 1,
+                                                            "set-dl-dst-action": {
+                                                                "address": "8c:68:3a:63:37:c9"
+                                                            }
+                                                        },
+                                                        {
+                                                            "order": 2,
+                                                            "set-dl-src-action": {
+                                                                "address": "de:ad:be:ef:00:43"
+                                                            }
+                                                        },
+                                                        {
+                                                            "order": 3,
+                                                            "output-action": {
+                                                                "output-node-connector": "43"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "cookie": 1024,
+                                    "priority": 8500,
+                                    "hard-timeout": 0,
+                                    "idle-timeout": 1800
+                                }
+                            ] 
+                        }
+                    bodyback = {
+                        "flow-node-inventory:flow": [
+                            {
+                                "table_id": 0,
+                                "id": flowiden + "b",
+                                "match": {
+                                    "ethernet-match": {
+                                        "ethernet-destination": {
+                                            "address": "de:ad:be:ef:00:43"
+                                        },
+                                        "ethernet-type": {
+                                            "type": 2048
+                                        }
+                                    },
+                                    "in-port":"43",
+                                    "ipv4-destination": framed_ip_address + '/32',
+                                    "ipv4-source": dst_ip_address
+                                },
+                                "instructions": {
+                                    "instruction": [
+                                        {
+                                            "order": 20,
+                                            "apply-actions": {
+                                                "action": [
+                                                    {
+                                                        "order": 1,
+                                                        "set-dl-dst-action": {
+                                                            "address": "70:79:90:06:e2:7c"
+                                                        }
+                                                    },
+                                                    {
+                                                        "order": 2,
+                                                        "set-dl-src-action": {
+                                                            "address": "de:ad:be:ef:00:44"
+                                                        }
+                                                    },
+                                                    {
+                                                        "order": 3,
+                                                        "output-action": {
+                                                            "output-node-connector": "44"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "cookie": 1024,
+                                "priority": 8500,
+                                "hard-timeout": 0,
+                                "idle-timeout": 1800
+                            }
+                        ]
+                    }
+                    payloadforward=json.dumps(bodyforward)
+                    payloadback=json.dumps(bodyback)
+                    responseforward = requests.request("PUT", urlforward, headers=headers, data = payloadforward)
+                    responseback = requests.request("PUT", urlback, headers=headers, data = payloadback)
+                    print("url:",urlforward)
+                    print("payloadforward:",payloadforward)
+                    print("payloadback:",payloadback)
+                    print("response:",responseforward.text.encode('utf8'))
+                    print("response:",responseback.text.encode('utf8'))
                 elif pkt.radius.reply_message == "acct stop ok":
                     payload = {}
                     headers = {
                         'Authorization': 'Basic YWRtaW46YWRtaW4=',
                         'Cookie': 'JSESSIONID=hqf4oljgt7s71svlhzhx2jp4k'
                     }
-                    requests.request("DELETE", url, headers=headers, data = payload)
+                    requests.request("DELETE", urlforward, headers=headers, data = payload)
+                    requests.request("DELETE", urlback, headers=headers, data = payload)
                     print ("deleted")
         #pdb.set_trace()
         checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (user_name,filter_id)

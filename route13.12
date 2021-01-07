@@ -12,13 +12,13 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
             "match": {
                 "in-port": "43",
                 "ethernet-match": {
-                    "ethernet-source": {
-                        "address": "de:ad:be:ef:00:43"
-                    },
+#                    "ethernet-destination": {
+#                        "address": "de:ad:be:ef:00:43"
+#                    },
                     "ethernet-type": {
                         "type": 2048
                     }
-                                               }
+                },
             },
             "instructions": {
                 "instruction": [
