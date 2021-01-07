@@ -89,9 +89,9 @@ def print_callback(pkt):
             return None
         else:
             user_name = access_radiuses[0][0]
+            framed_ip_address = access_radiuses[0][1]
             if user_name=="cucc3001":
                 print ("5user_name:",user_name)
-                framed_ip_address = access_radiuses[0][1]
                 print ("5framed_ip_address:",framed_ip_address)
                 print ("5pkt.radiusid:",pkt.radius.id)
             filter_id = access_radiuses[0][2]
@@ -232,11 +232,13 @@ def print_callback(pkt):
                     payloadback=json.dumps(bodyback)
                     responseforward = requests.request("PUT", urlforward, headers=headers, data = payloadforward)
                     responseback = requests.request("PUT", urlback, headers=headers, data = payloadback)
-                    print("url:",urlforward)
-                    print("payloadforward:",payloadforward)
-                    print("payloadback:",payloadback)
-                    print("response:",responseforward.text.encode('utf8'))
-                    print("response:",responseback.text.encode('utf8'))
+                    if user_name=="cucc3001":
+                        print("urlforward:",urlforward)
+                        print("urlforward:",urlforward)
+                        print("payloadforward:",payloadforward)
+                        print("payloadback:",payloadback)
+                        print("response:",responseforward.text.encode('utf8'))
+                        print("response:",responseback.text.encode('utf8'))
                 elif pkt.radius.reply_message == "acct stop ok":
                     payload = {}
                     headers = {
@@ -249,10 +251,10 @@ def print_callback(pkt):
         #pdb.set_trace()
         checksql="SELECT * FROM `access_log` WHERE `user_name`='%s' AND `filter_id`='%s';commit" % (user_name,filter_id)
         cursor.execute(checksql)
-        print ("5checksql:",checksql)
+        # print ("5checksql:",checksql)
         res1 = cursor.fetchall()
-        print ("5checksql res1:",res1)
-        print ("5INSERT?:",res1 == ())
+        # print ("5checksql res1:",res1)
+        # print ("5INSERT?:",res1 == ())
         if "acct start ok" in pkt.radius.reply_message:
             acct_status_type="1"
         elif "acct stop ok" in pkt.radius.reply_message:
