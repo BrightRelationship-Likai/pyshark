@@ -265,7 +265,7 @@ def print_callback(pkt):
             # log.info(str(pkt.radius))
             insertsql="INSERT INTO `access_log` (`acct_status_type`, `create_date`) VALUES ('%s', '%s');commit" % (acct_status_type,datetime.datetime.now())
         else:
-            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),user_name)
+            insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s',`radius_id`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),pkt.radius.id,user_name)
         cursor.execute(insertsql)
         # if pkt.radius.reply_message == "acct start ok":
 
