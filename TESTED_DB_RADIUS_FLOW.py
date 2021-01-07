@@ -17,7 +17,7 @@ capture = pyshark.LiveCapture(interface='ens192',bpf_filter='udp port 1812 or ud
 # capture.sniff(timeout=5)
 # capture
 def print_callback(pkt):
-    print(pkt.radius.code)
+    # print(pkt.radius.code)
 
     # 打开数据库连接
     db = MySQLdb.connect(ip, "root", "123sql", "sdn", charset='utf8')
@@ -35,7 +35,7 @@ def print_callback(pkt):
 
     #计费
     elif pkt.radius.code=='4' and hasattr(pkt.radius,'framed_ip_address') and hasattr(pkt.radius,'acct_status_type'):
-        print ("code==4")
+        # print ("code==4")
 
         #pdb.set_trace()
         #print (pkt.radius)
@@ -44,15 +44,15 @@ def print_callback(pkt):
         # print (dupsql)
         cursor.execute(dupsql)
         dupcheckres = cursor.fetchall()
-        print ("need new:",dupcheckres == ())
+        # print ("need new:",dupcheckres == ())
         if dupcheckres == ():
             #pdb.set_trace()
             checksql="SELECT `filter_id` FROM `access_log` WHERE `user_name`='%s';commit" % (pkt.radius.user_name)
             cursor.execute(checksql)
-            print ("checksql:",checksql)
+            # print ("checksql:",checksql)
             res1 = cursor.fetchall()
-            print ("checksql res1:",res1)
-            print ("INSERT?:",res1 == ())
+            # print ("checksql res1:",res1)
+            # print ("INSERT?:",res1 == ())
             timenow = datetime.datetime.now()
             # acct_status_type=pkt.radius.acct_status_type
             # if pkt.radius.acct_status_type == "3":
@@ -70,6 +70,8 @@ def print_callback(pkt):
             #             (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,pkt.radius.filter_id,timenow,pkt.radius.id)
                 insradidsql="INSERT INTO `access_radiusid` (`radius_id`,`user_name`,`framed_ip_address`, `filter_id`,`create_date`) VALUES('%s','%s','%s','%s','%s') on duplicate key update user_name = '%s',framed_ip_address = '%s',filter_id = '%s',create_date = '%s';commit"% \
                         (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,res1[0][0],timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,res1[0][0],timenow)
+                if pkt.radius.user_name == "cucc3001":
+                    print (pkt.radius,id+"--",pkt.radius.framed_ip_address)
             cursor.execute(insradidsql)
         else:
             print("duplicated")
@@ -78,7 +80,7 @@ def print_callback(pkt):
 
     #计费
     elif pkt.radius.code=='5' and hasattr(pkt.radius,'reply_message'):
-        print ("code==5")
+        # print ("code==5")
         getdusersql="SELECT `user_name`,`framed_ip_address`,`filter_id` FROM `access_radiusid` WHERE `radius_id`='%s' ;commit" % (pkt.radius.id)
         cursor.execute(getdusersql)
         access_radiuses=cursor.fetchall()
@@ -87,11 +89,13 @@ def print_callback(pkt):
             return None
         else:
             user_name = access_radiuses[0][0]
-            print ("5user_name:",user_name)
-            framed_ip_address = access_radiuses[0][1]
-            print ("5framed_ip_address:",framed_ip_address)
+            if user_name=="cucc3001":
+                print ("5user_name:",user_name)
+                framed_ip_address = access_radiuses[0][1]
+                print ("5framed_ip_address:",framed_ip_address)
+                print ("5pkt.radiusid:",pkt.radius.id)
             filter_id = access_radiuses[0][2]
-            print ("5filter_id:",filter_id)
+            # print ("5filter_id:",filter_id)
 
             getconfigsql = "SELECT config_name,type,config_ip,subnet FROM service_config LEFT JOIN role_service_binding ON service_config.config_name=role_service_binding.service_name where (role_service_binding.user_role='" + filter_id + "' AND role_service_binding.is_delete='N' AND service_config.is_delete='N');commit"
             #pdb.set_trace()
