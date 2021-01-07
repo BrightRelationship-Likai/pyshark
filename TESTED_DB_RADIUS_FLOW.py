@@ -26,11 +26,11 @@ def print_callback(pkt):
 
 #    if pkt is None or pkt.radius.user_name is None or pkt.radius.framed_ip_address is None or pkt.radius.acct_status_type is None:
     if pkt.radius.code=='2' and hasattr(pkt.radius,'filter_id') and hasattr(pkt.radius,'user_name'):
-        print (hasattr(pkt.radius,'filter_id'))
+        # print (hasattr(pkt.radius,'filter_id'))
         # dict_user_group[pkt.radius.user_name]=pkt.radius.filter_id
         insertsql="insert into `access_log` (user_name,filter_id)  VALUES('%s','%s') on duplicate key update filter_id = '%s';commit" % (pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id)
         # insertsql="if not exists (select * from `access_log` where user_name = '%s');INSERT INTO `access_log` (user_name,filter_id) VALUES('%s','%s');else update `access_log` set filter_id = '%s' where user_name = '%s';commit"% (pkt.radius.user_name,pkt.radius.user_name,pkt.radius.filter_id,pkt.radius.filter_id,pkt.radius.user_name)
-        print("insertsql====",insertsql)
+        # print("insertsql====",insertsql)
         cursor.execute(insertsql)
 
     #计费
@@ -113,8 +113,7 @@ def print_callback(pkt):
                     print ("ip type error")
                     return None
                 if pkt.radius.reply_message == "acct start ok":
-                    print (flowiden)
-
+                    # print ("flowiden:",flowiden)
                     headers = {
                         'Authorization': 'Basic YWRtaW46YWRtaW4=',
                         'Content-Type': 'application/json',
