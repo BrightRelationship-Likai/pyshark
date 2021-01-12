@@ -18,7 +18,7 @@ curl --location --request PUT 'http://10.0.48.43:8181/restconf/config/opendaylig
                     "ethernet-type": {
                         "type": 2048
                     }
-                },
+                }
             },
             "instructions": {
                 "instruction": [
