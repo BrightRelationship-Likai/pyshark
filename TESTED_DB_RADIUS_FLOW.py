@@ -90,10 +90,14 @@ def print_callback(pkt):
         else:
             user_name = access_radiuses[0][0]
             framed_ip_address = access_radiuses[0][1]
+            allowuserport = "43"
+            allowusermac = "8c:68:3a:63:37:c9"
             if user_name=="cucc3001":
                 print ("5user_name:",user_name)
                 print ("5framed_ip_address:",framed_ip_address)
                 print ("5pkt.radiusid:",pkt.radius.id)
+                allowuserport = "46"
+                allowusermac="8c:68:3a:63:37:c8"
             filter_id = access_radiuses[0][2]
             # print ("5filter_id:",filter_id)
 
@@ -146,19 +150,19 @@ def print_callback(pkt):
                                                         {
                                                             "order": 1,
                                                             "set-dl-dst-action": {
-                                                                "address": "8c:68:3a:63:37:c9"
+                                                                "address": allowusermac
                                                             }
                                                         },
                                                         {
                                                             "order": 2,
                                                             "set-dl-src-action": {
-                                                                "address": "de:ad:be:ef:00:43"
+                                                                "address": "de:ad:be:ef:00:" + allowuserport
                                                             }
                                                         },
                                                         {
                                                             "order": 3,
                                                             "output-action": {
-                                                                "output-node-connector": "43"
+                                                                "output-node-connector": allowuserport
                                                             }
                                                         }
                                                     ]
@@ -181,13 +185,13 @@ def print_callback(pkt):
                                 "match": {
                                     "ethernet-match": {
                                         "ethernet-destination": {
-                                            "address": "de:ad:be:ef:00:43"
+                                            "address": "de:ad:be:ef:00:" + allowuserport
                                         },
                                         "ethernet-type": {
                                             "type": 2048
                                         }
                                     },
-                                    "in-port":"43",
+                                    "in-port":allowuserport,
                                     "ipv4-destination": framed_ip_address + '/32',
                                     "ipv4-source": dst_ip_address
                                 },
