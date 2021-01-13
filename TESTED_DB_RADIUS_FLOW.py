@@ -130,9 +130,9 @@ def print_callback(pkt):
                                     "id": flowiden + "f",
                                     "match": {
                                         "ethernet-match": {
-                                            "ethernet-destination": {
-                                                "address": "de:ad:be:ef:00:44"
-                                            },
+                                            # "ethernet-destination": {
+                                            #     "address": "de:ad:be:ef:00:44"
+                                            # },
                                             "ethernet-type": {
                                                 "type": 2048
                                             }
@@ -184,9 +184,9 @@ def print_callback(pkt):
                                 "id": flowiden + "b",
                                 "match": {
                                     "ethernet-match": {
-                                        "ethernet-destination": {
-                                            "address": "de:ad:be:ef:00:" + allowuserport
-                                        },
+                                        # "ethernet-destination": {
+                                        #     "address": "de:ad:be:ef:00:" + allowuserport
+                                        # },
                                         "ethernet-type": {
                                             "type": 2048
                                         }
