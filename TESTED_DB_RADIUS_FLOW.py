@@ -72,7 +72,7 @@ def print_callback(pkt):
                         (pkt.radius.id,pkt.radius.user_name,pkt.radius.framed_ip_address,res1[0][0],timenow,pkt.radius.user_name,pkt.radius.framed_ip_address,res1[0][0],timenow)
                 if pkt.radius.user_name == "cucc3001":
                     print (str(pkt.radius.id)+"--",pkt.radius.framed_ip_address)
-            cursor.execute(insradidsql)
+                cursor.execute(insradidsql)
         else:
             print("duplicated")
 
@@ -80,7 +80,7 @@ def print_callback(pkt):
 
     #计费
     elif pkt.radius.code=='5' and hasattr(pkt.radius,'reply_message'):
-        # print ("code==5")
+        print ("code==5")
         getdusersql="SELECT `user_name`,`framed_ip_address`,`filter_id` FROM `access_radiusid` WHERE `radius_id`='%s' ;commit" % (pkt.radius.id)
         cursor.execute(getdusersql)
         access_radiuses=cursor.fetchall()
@@ -116,7 +116,7 @@ def print_callback(pkt):
                 else:
                     print ("ip type error")
                     return None
-                if pkt.radius.reply_message == "acct start ok":
+                if "acct start ok" in pkt.radius.reply_message:
                     # print ("flowiden:",flowiden)
                     headers = {
                         'Authorization': 'Basic YWRtaW46YWRtaW4=',
@@ -242,7 +242,7 @@ def print_callback(pkt):
                         print("payloadback:",payloadback)
                         print("response:",responseforward.text.encode('utf8'))
                         print("response:",responseback.text.encode('utf8'))
-                elif pkt.radius.reply_message == "acct stop ok":
+                elif "acct stop ok" in pkt.radius.reply_message:
                     payload = {}
                     headers = {
                         'Authorization': 'Basic YWRtaW46YWRtaW4=',
@@ -271,7 +271,6 @@ def print_callback(pkt):
         else:
             insertsql="UPDATE `access_log` SET `acct_status_type`='%s', `create_date`='%s',`radius_id`='%s' WHERE `user_name`='%s';commit" % (acct_status_type,datetime.datetime.now(),pkt.radius.id,user_name)
         cursor.execute(insertsql)
-        # if pkt.radius.reply_message == "acct start ok":
 
     # 关闭数据库连接 never reached
     db.close()
