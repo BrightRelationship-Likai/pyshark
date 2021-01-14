@@ -147,12 +147,12 @@ def print_callback(pkt):
                                                 "order": 20,
                                                 "apply-actions": {
                                                     "action": [
-                                                        # {
-                                                        #     "order": 1,
-                                                        #     "set-dl-dst-action": {
-                                                        #         "address": allowusermac
-                                                        #     }
-                                                        # },
+                                                        {
+                                                            "order": 1,
+                                                            "set-dl-dst-action": {
+                                                                "address": allowusermac
+                                                            }
+                                                        },
                                                         {
                                                             "order": 2,
                                                             "set-dl-src-action": {
@@ -201,12 +201,12 @@ def print_callback(pkt):
                                             "order": 20,
                                             "apply-actions": {
                                                 "action": [
-                                                    # {
-                                                    #     "order": 1,
-                                                    #     "set-dl-dst-action": {
-                                                    #         "address": "70:79:90:06:e2:7c"
-                                                    #     }
-                                                    # },
+                                                    {
+                                                        "order": 1,
+                                                        "set-dl-dst-action": {
+                                                            "address": "70:79:90:06:e2:7c"
+                                                        }
+                                                    },
                                                     {
                                                         "order": 2,
                                                         "set-dl-src-action": {
