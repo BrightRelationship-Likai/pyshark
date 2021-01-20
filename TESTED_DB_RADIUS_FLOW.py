@@ -231,6 +231,12 @@ def print_callback(pkt):
                             }
                         ]
                     }
+
+                    if user_name=="cucc3001":
+                        meter_instruction={"order":1,"meter":{"meter-id":1}}
+                        bodyforward["flow-node-inventory:flow"]["instructions"]["instruction"].append(meter_instruction)
+                        bodyback["flow-node-inventory:flow"]["instructions"]["instruction"].append(meter_instruction)
+
                     payloadforward=json.dumps(bodyforward)
                     payloadback=json.dumps(bodyback)
                     responseforward = requests.request("PUT", urlforward, headers=headers, data = payloadforward)
